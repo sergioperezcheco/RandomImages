@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+   <link rel="preload" as="image" href="https://random.fddm.cc/?type=fddm">
+
+  <!--  SEO相关  -->
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="google-site-verification" content="xxxx" />
+   <meta name="msvalidate.01" content="xxxx" />
+   <meta name="description" content="发现随机的房东的猫、王心怡、吴佩玲的可爱绝美照片，房东的猫的粉丝们一定不要错过。">
+   <meta name="keywords" content="房东的猫, 王心怡, 小黑, 吴佩玲, 少年佩, 随机照片">
+   <meta http-equiv="Content-Language" content="zh-CN">
+   <meta property="og:title" content="随机美女图片 - 房东的猫, 王心怡, 吴佩玲">
+   <meta property="og:description" content="提供房东的猫、王心怡、吴佩玲的随机照片，快来发现你的心动瞬间。">
+   <meta property="og:image" content="https://random.fddm.cc/fddm/photo_2024-07-10_20-26-32.jpg">
+   <meta property="og:url" content="https://random.fddm.cc">
+   <meta property="og:type" content="website">
+   <meta name="robots" content="index, follow">
+   <meta name="author" content="checo">
+   <meta name="theme-color" content="#FFE6F2">
+
+   <title>随机图片 -房东的猫</title>
+   
+   <style>
+       body, body * {
+           cursor: default;
+           user-select: none; /* 防止用户选择文本 */
+       }
+       body {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: linear-gradient(135deg, #ffffff, #ffe6f2);
+           position: relative;
+           overflow: hidden;
+       }
+       .container {
+           text-align: center;
+           background-color: white;
+           padding: 20px;
+           border-radius: 12px;
+           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+       }
+       h1 {
+           font-size: 2em;
+           margin-top: 0;
+           margin-bottom: 20px;
+           color: #333;
+       }
+       img {
+           max-width: 100%;
+           max-height: 80vh;
+           width: auto;
+           height: auto;
+           border-radius: 12px;
+           border: none; /* 移除边框 */
+           box-shadow: none; /* 移除阴影 */
+           transition: transform 0.2s ease-in-out;
+           display: none; /* 默认隐藏图片 */
+       }
+       img:hover {
+           transform: scale(1.05);
+       }
+       .loader {
+           width: 40px;
+           height: 40px;
+           position: relative;
+           margin: 20px auto;
+           display: block; /* 默认显示加载动画 */
+       }
+       .loader div {
+           position: absolute;
+           width: 100%;
+           height: 100%;
+           border: 6px solid #D3D3D3;
+           border-radius: 50%;
+           animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+           border-color: #D3D3D3 transparent transparent transparent;
+       }
+       .loader div:nth-child(1) {
+           animation-delay: -0.45s;
+       }
+       .loader div:nth-child(2) {
+           animation-delay: -0.3s;
+       }
+       .loader div:nth-child(3) {
+           animation-delay: -0.15s;
+       }
+       @keyframes loader {
+           0% {
+               transform: rotate(0deg);
+           }
+           100% {
+               transform: rotate(360deg);
+           }
+       }
+       .confetti {
+           position: absolute;
+           width: 10px;
+           height: 10px;
+           background-color: #ff6347;
+           border-radius: 50%;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+           animation: confetti 1s ease-out forwards;
+       }
+       @keyframes confetti {
+           0% {
+               transform: translate(0, 0) rotate(0deg);
+               opacity: 1;
+           }
+           100% {
+               transform: translate(var(--x), var(--y)) rotate(360deg);
+               opacity: 0;
+           }
+       }
+       .sad-face {
+           font-size: 4em;
+           display: none;
+       }
+       .preview-container {
+           display: none;
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background: rgba(0, 0, 0, 0.7);
+           justify-content: center;
+           align-items: center;
+           z-index: 1000;
+           opacity: 0;
+           transition: opacity 0.3s ease-in-out;
+       }
+       .preview-container.active {
+           opacity: 1;
+       }
+       .preview-image {
+           max-width: 90%;
+           max-height: 90%;
+           width: auto;
+           height: auto;
+           border-radius: 0; /* 移除圆角 */
+           border: none; /* 移除边框 */
+           box-shadow: none; /* 移除阴影 */
+           transition: transform 0.2s ease-in-out; /* 仅在放大和缩小操作时平滑过渡 */
+       }
+       .preview-image:active {
+           cursor: grabbing;
+       }
+       .toolbar {
+           position: absolute;
+           left: 10px;
+           top: 50%;
+           transform: translateY(-50%);
+           display: flex;
+           flex-direction: column;
+           gap: 10px;
+           background: rgba(255, 255, 255, 0.7);
+           padding: 10px;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+           z-index: 1001; /* 置于顶层 */
+       }
+       .toolbar button {
+           width: 40px;
+           height: 40px;
+           border: none;
+           background: rgba(0, 0, 0, 0.5);
+           color: white;
+           font-size: 1.2em;
+           border-radius: 50%;
+           cursor: pointer;
+           transition: background 0.2s;
+       }
+       .toolbar button:hover {
+           background: rgba(0, 0, 0, 0.7);
+       }
+       .close-button {
+           position: absolute;
+           right: 10px;
+           top: 10px;
+           width: 40px;
+           height: 40px;
+           border: none;
+           background: rgba(0, 0, 0, 0.5);
+           color: white;
+           font-size: 1.2em;
+           border-radius: 50%;
+           cursor: pointer;
+           transition: background 0.2s;
+           z-index: 1001; /* 置于顶层 */
+       }
+       .close-button:hover {
+           background: rgba(0, 0, 0, 0.7);
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <h1>房东的猫</h1>
+       <div class="loader">
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+       </div>
+       <img id="randomImage" src="https://random.fddm.cc/?type=fddm" alt="房东的猫-随机图片" onload="imageLoaded()" onerror="imageError()" loading="lazy">
+       <div class="sad-face">😢</div>
+   </div>
+
+   <div class="preview-container" onclick="hidePreview(event)">
+       <button class="close-button" onclick="event.stopPropagation(); closePreview()">×</button>
+       <div class="toolbar">
+           <button onclick="event.stopPropagation(); zoomIn()">+</button>
+           <button onclick="event.stopPropagation(); zoomOut()">-</button>
+           <button onclick="event.stopPropagation(); rotateCounterClockwise()">↺</button>
+           <button onclick="event.stopPropagation(); rotateClockwise()">↻</button>
+       </div>
+       <img id="previewImage" class="preview-image" src="" alt="预览图片" onclick="event.stopPropagation(); event.preventDefault();">
+   </div>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
+   <script>
+       let imageLoadedFlag = false;
+       let scale = 1;
+       let rotation = 0;
+       let panX = 0;
+       let panY = 0;
+       let isDragging = false;
+       let startX, startY;
+
+       // 图片加载完成后隐藏加载动画
+       function imageLoaded() {
+           imageLoadedFlag = true;
+           document.querySelector('.loader').style.display = 'none';
+           document.getElementById('randomImage').style.display = 'block';
+           document.getElementById('previewImage').style.display = 'block';
+       }
+
+       // 图片加载失败处理
+       function imageError() {
+           document.querySelector('.loader').style.display = 'none';
+           document.querySelector('.sad-face').style.display = 'block';
+       }
+
+       // 20秒后如果图片还未加载完成，显示悲伤表情
+       setTimeout(() => {
+           if (!imageLoadedFlag) {
+               document.querySelector('.loader').style.display = 'none';
+               document.querySelector('.sad-face').style.display = 'block';
+           }
+       }, 20000);
+
+       // 点击页面时生成五彩纸屑效果
+       document.addEventListener('click', function (e) {
+           const numParticles = 40;
+           const colors = ['#ff6347', '#ffa500', '#32cd32', '#1e90ff', '#ff69b4', '#ba55d3', '#20b2aa'];
+           const particles = [];
+
+           for (let i = 0; i < numParticles; i++) {
+               const particle = document.createElement('div');
+               particle.classList.add('confetti');
+               particle.style.left = `${e.clientX}px`;
+               particle.style.top = `${e.clientY}px`;
+
+               const angle = Math.random() * 2 * Math.PI;
+               const radius = Math.random() * 100 + 50;
+               const x = Math.cos(angle) * radius;
+               const y = Math.sin(angle) * radius;
+               particle.style.setProperty('--x', `${x}px`);
+               particle.style.setProperty('--y', `${y}px`);
+
+               const color = colors[Math.floor(Math.random() * colors.length)];
+               particle.style.backgroundColor = DOMPurify.sanitize(color);  // 使用DomPurify清理颜色
+
+               const size = Math.random() * 10 + 5;
+               particle.style.width = `${size}px`;
+               particle.style.height = `${size}px`;
+
+               document.body.appendChild(particle);
+               particles.push(particle);
+           }
+
+           setTimeout(() => {
+               particles.forEach(particle => particle.remove());
+           }, 1000);
+       });
+
+       // 点击图片进入预览模式
+       document.getElementById('randomImage').addEventListener('click', function(e) {
+           e.stopPropagation();
+           const img = document.getElementById('randomImage');
+           const previewImg = document.getElementById('previewImage');
+           previewImg.src = DOMPurify.sanitize(img.src);  // 使用DOMPurify清理图片源
+           scale = 1;
+           rotation = 0;
+           panX = 0;
+           panY = 0;
+           updateImageTransform();
+           const previewContainer = document.querySelector('.preview-container');
+           previewContainer.style.display = 'flex';
+           setTimeout(() => {
+               previewContainer.classList.add('active');
+           }, 10);
+       });
+
+       // 点击预览容器隐藏预览
+       function hidePreview(e) {
+           if (e.target === e.currentTarget) {
+               const previewContainer = document.querySelector('.preview-container');
+               previewContainer.classList.remove('active');
+               setTimeout(() => {
+                   previewContainer.style.display = 'none';
+               }, 300);
+           }
+       }
+
+       // 放大图片
+       function zoomIn() {
+           scale *= 1.3;
+           updateImageTransform();
+       }
+
+       // 缩小图片
+       function zoomOut() {
+           scale /= 1.3;
+           if (scale < 0.1) scale = 0.1;
+           updateImageTransform();
+       }
+
+       // 逆时针旋转图片
+       function rotateCounterClockwise() {
+           rotation -= 90;
+           updateImageTransform();
+       }
+
+       // 顺时针旋转图片
+       function rotateClockwise() {
+           rotation += 90;
+           updateImageTransform();
+       }
+
+       // 更新图片的变换属性
+       function updateImageTransform() {
+           const previewImg = document.getElementById('previewImage');
+           previewImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale}) rotate(${rotation}deg)`;
+       }
+
+       // 开始拖动图片
+       document.getElementById('previewImage').addEventListener('mousedown', (e) => {
+           e.preventDefault();
+           e.stopPropagation();
+           isDragging = true;
+           startX = e.clientX - panX;
+           startY = e.clientY - panY;
+           document.getElementById('previewImage').style.transition = 'none'; // 禁用过渡效果
+       });
+
+       // 拖动图片
+       document.addEventListener('mousemove', (e) => {
+           if (isDragging) {
+               e.preventDefault();
+               panX = e.clientX - startX;
+               panY = e.clientY - startY;
+               updateImageTransform();
+           }
+       });
+
+       // 结束拖动图片
+       document.addEventListener('mouseup', (e) => {
+           if (e.target.id === 'previewImage') {
+               isDragging = false;
+               document.getElementById('previewImage').style.transition = 'transform 0.2s ease-in-out'; // 恢复过渡效果
+           }
+       });
+
+       // 关闭预览
+       function closePreview() {
+           const previewContainer = document.querySelector('.preview-container');
+           previewContainer.classList.remove('active');
+           setTimeout(() => {
+               previewContainer.style.display = 'none';
+           }, 300);
+       }
+
+       // 按下ESC键关闭预览
+       document.addEventListener('keydown', (e) => {
+           if (e.key === 'Escape') {
+               closePreview();
+           }
+       });
+
+       // 处理鼠标滚轮事件
+       document.getElementById('previewImage').addEventListener('wheel', (e) => {
+           e.preventDefault();
+           if (e.deltaY < 0) {
+               zoomIn();
+           } else {
+               zoomOut();
+           }
+       });
+   </script>
+
+</body>
+</html>
